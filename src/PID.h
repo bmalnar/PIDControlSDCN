@@ -16,6 +16,12 @@ public:
   double Kp;
   double Ki;
   double Kd;
+  /*
+  * Coefficients for calculating throttle
+  * the equation is: throttle = (1 - steer_value) * a - b
+  */
+  double throttle_a;
+  double throttle_b;
 
   /*
   * Constructor
@@ -30,7 +36,7 @@ public:
   /*
   * Initialize PID.
   */
-  void Init(double Kp, double Ki, double Kd);
+  void Init(double Kp, double Ki, double Kd, double throttle_a, double throttle_b);
 
   /*
   * Update the PID error variables given cross track error.
@@ -41,6 +47,11 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
+
+ /*
+  * Calculate throttle based on steer value 
+  */
+  double CalculateThrottle(double steer_value);
 };
 
 #endif /* PID_H */

@@ -1,6 +1,10 @@
 #ifndef PID_H
 #define PID_H
 
+#include<deque>
+
+#define N_QUEUE 1
+
 class PID {
 public:
   /*
@@ -22,6 +26,11 @@ public:
   */
   double throttle_a;
   double throttle_b;
+
+  /*
+   * Store the previous steer value
+   */
+  std::deque<double> steer_value_prev;
 
   /*
   * Constructor
@@ -52,6 +61,11 @@ public:
   * Calculate throttle based on steer value 
   */
   double CalculateThrottle(double steer_value);
+
+  /*
+   * Update the value of stter_value_prev 
+   */
+  void UpdateSteerValuePrev(double steer_value);
 };
 
 #endif /* PID_H */

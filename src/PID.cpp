@@ -28,6 +28,7 @@ void PID::Init(double Kp, double Ki, double Kd, double throttle_a, double thrott
   this->p_error = 0; 
   this->i_error = 0; 
   this->d_error = 0; 
+  // this->steer_value_prev = 0; 
 
   std::cout << "Init: Kp = " << this->Kp << std::endl;
   std::cout << "Init: Ki = " << this->Ki << std::endl;
@@ -54,6 +55,30 @@ void PID::UpdateError(double cte) {
   return;
 }
 
+void PID::UpdateSteerValuePrev(double steer_value) { 
+
+  /*
+   * Update the value of stter_value_prev 
+   */
+
+  this->steer_value_prev.push_back(steer_value);
+
+  int current_n = this->steer_value_prev.size();
+
+  if (current_n > N_QUEUE) { 
+    this->steer_value_prev.pop_front();
+  } 
+
+  current_n = this->steer_value_prev.size();
+
+  std::cout << "Current deque size: " << current_n << std::endl;
+  for (int i = 0; i < current_n; i++) { 
+    std::cout << this->steer_value_prev[i] << ", ";
+  }
+
+  std::cout << std::endl;
+}
+
 double PID::TotalError() {
   
   /*
@@ -68,7 +93,19 @@ double PID::TotalError() {
   total_error -= this->Ki * this->i_error;
   total_error -= this->Kd * this->d_error;
 
-  return total_error;
+  int current_n = this->steer_value_prev.size();
+
+  double steer_value = total_error;
+
+  for (int i = 0; i < current_n; i++) { 
+    steer_value += this->steer_value_prev[i];
+  }
+
+  steer_value /= current_n + 1;
+
+  PID::UpdateSteerValuePrev(total_error);
+
+  return steer_value;
 }
 
 double PID::CalculateThrottle(double steer_value) { 

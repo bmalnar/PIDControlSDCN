@@ -97,12 +97,14 @@ double PID::TotalError() {
 
   double steer_value = total_error;
 
+  // Add N previous steer values to evarage out for smoothness
   for (int i = 0; i < current_n; i++) { 
     steer_value += this->steer_value_prev[i];
   }
 
   steer_value /= current_n + 1;
 
+  // Remember the current total_error value for later
   PID::UpdateSteerValuePrev(total_error);
 
   return steer_value;

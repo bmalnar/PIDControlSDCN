@@ -71,7 +71,13 @@ cmake ..
 make
 ./pid 0.2 0 5 0.4 0.2
 ```
-At the same time, the Udacity simulator needs to be running, so that the simulator and the PID controller exchange information. 
+At the same time, the Udacity simulator needs to be running, so that the simulator and the PID controller exchange information. When the simulator starts and the graphics settings are chosen, the scenario "Project 4: PID Controller" needs to be chosen, please see the picture below. 
+
+<img src="images/sim.png" width="700" alt="Simulator Screenshot" />
+
+If the PID program is running and the simulator is also running, the two establish communication and the vehicle in the simulator starts to move, as depicted below. At every simulation step we can see the values for the steering angle and the speed of the vehicle. 
+
+<img src="images/sim2.png" width="700" alt="Simulator Screenshot" />
 
 Please note that the values specified in the call of the program *pid* are: *K_p, K_i, K_d, throttle_a, throttle_b*, in that particular order. The choice to make these parameters command line arguments was simply to avoid having to re-compile the program every time a parameter is modified during the trial-and-error tuning phase. 
 

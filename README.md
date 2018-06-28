@@ -33,9 +33,17 @@ total_error = -K_p * p_error - K_i * i_error - K_d * d_error
 Here, *K_p, K_i, K_d* are coefficients set at the beginning of the program. the values for *p_error, i_error, d_error* are calculated in each simulation step, based on the CTE value received from the simulator. 
 - The value of *p_error* is simply set to CTE. In that way, *K_p* and *p_error* attempt to reduce the overal error by the amount proportional to the current cross track error, CTE.  
 - The value of *d_error* is the difference between CTE in the current step and CTE in the previous step. In that way, *K_d* and *d_error* attempt to reduce the overal error by the amount proportional to the difference betweeen two consecutive CTE values.   
-- The value of *i_error* is a cummulative CTE error summarized over all of the simulation steps. In that way, *K_i* and *i_error* attempt to reduce the overal error by the amount proportional to the sum of all CTE values sees so far. This is useful in the case there is a permanent static component in the CTE value, which cannot be compensated for by *p_error* nor by *d_error*.    
+- The value of *i_error* is a cummulative CTE error summarized over all of the simulation steps. In that way, *K_i* and *i_error* attempt to reduce the overal error by the amount proportional to the sum of all CTE values sees so far. This is useful in the case there is a permanent static component (drift) in the CTE value, which cannot be compensated for by *p_error* nor by *d_error*.    
 
 ### Choosing the values for *K_p, K_i, K_d*
+
+The parameters were tuned manually using the trial-and-error approach. Firstly, K_i and K_d were set to zero, and only the proportional parameter K_p was set to a small positive number. This caused the vehicle to constantly overshoot by a noticeable amount, so increasing K_d from zero to a positive value was a logical next step. This helped the vehicle to reduce overshooting. When K_i was increased from zero to a positive value, the vehicle slowly drifted off the road. This appears to indicate that there is no drift, and eventually K_i was set to zero, because the vehicle appears to be driving well in that case. The final parameters are set to:
+
+```
+(K_p, K_i, K_d) = (0.2, 0, 3)
+```
+
+The car does not drive perfectly with these values, but they are good enough and probably with more effort another combination could be found to improve the overall steering. But for this project, these are the values that appear satisfactory. 
 
 ### Calculating the value for throttle
 

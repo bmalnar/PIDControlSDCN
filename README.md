@@ -47,6 +47,20 @@ The car does not drive perfectly with these values, but they are good enough and
 
 ### Calculating the value for throttle
 
+In the original project repository, the value for throttle was set to 0.3 in the main program and it would not change in the simulation. To make things more interesting, here we model the throttle to be a linear function of steering, so that the value for throttle increases for small steering values, and decreases for larger values. In essence, this means that the vehicle drives faster on straight road segments, while slowing down in the curves. The equation for throttle is essentially:
+
+```
+throttle_value = (1 - abs(steer_value)) * throttle_a + throttle_b
+```
+
+Here, *throttle_a, throttle_b* are constant parameters set at the beginning of the simulation, and their values are also tuned manually by trial-and-error, after the values for K parameters were tuned. For this particular simulation, the values chosen:
+
+```
+(throttle_a, throttle_b) = (0.4, 0.2)
+```
+
+Of course, for another scenarion with a different track, another set of number may work better. 
+
 ### How to run the program
 
 After cloning this repository, simply execute the following commands to build and run the program:
@@ -58,6 +72,8 @@ make
 ./pid 0.2 0 5 0.4 0.2
 ```
 At the same time, the Udacity simulator needs to be running, so that the simulator and the PID controller exchange information. 
+
+Please note that the values specified in the call of the program *pid* are: *K_p, K_i, K_d, throttle_a, throttle_b*, in that particular order. The choice to make these parameters command line arguments was simply to avoid having to re-compile the program every time a parameter is modified during the trial-and-error tuning phase. 
 
 ### Setting up the environment 
 - The project is configured to compile with cmake and make. Please make sure that the following dependencies are met:

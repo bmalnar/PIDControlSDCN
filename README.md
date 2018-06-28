@@ -40,7 +40,7 @@ Here, *K_p, K_i, K_d* are coefficients set at the beginning of the program. the 
 The parameters were tuned manually using the trial-and-error approach. Firstly, K_i and K_d were set to zero, and only the proportional parameter K_p was set to a small positive number. This caused the vehicle to constantly overshoot by a noticeable amount, so increasing K_d from zero to a positive value was a logical next step. This helped the vehicle to reduce overshooting. When K_i was increased from zero to a positive value, the vehicle slowly drifted off the road. This appears to indicate that there is no drift, and eventually K_i was set to zero, because the vehicle appears to be driving well in that case. The final parameters are set to:
 
 ```
-(K_p, K_i, K_d) = (0.2, 0, 3)
+(K_p, K_i, K_d) = (0.2, 0, 5)
 ```
 
 The car does not drive perfectly with these values, but they are good enough and probably with more effort another combination could be found to improve the overall steering. But for this project, these are the values that appear satisfactory. 
